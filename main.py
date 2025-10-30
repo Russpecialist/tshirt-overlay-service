@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, jsonify  # ← добавить
 import os
 
 app = Flask(__name__)
@@ -10,6 +10,12 @@ def home():
 @app.route('/health')
 def health():
     return 'OK'
+
+# ✅ ДОБАВИТЬ ЭТОТ ЭНДПОИНТ
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    data = request.json
+    return jsonify({"status": "received", "data": data})
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
